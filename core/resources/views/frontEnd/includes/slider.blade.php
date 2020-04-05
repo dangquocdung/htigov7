@@ -1,4 +1,5 @@
-@if(count($SliderBanners)>0)
+@if(count((array)$SliderBanners)>0)
+
     <section id="featured">
         <!-- start slider -->
         <!-- Slider -->
@@ -12,26 +13,16 @@
             ?>
         @endforeach
         <?php
-        $title_var = "title_" . @Helper::currentLanguage()->code;
-        $title_var2 = "title_" . env('DEFAULT_LANGUAGE');
-        $details_var = "details_" . @Helper::currentLanguage()->code;
-        $details_var2 = "details_" . env('DEFAULT_LANGUAGE');
-        $file_var = "file_" . @Helper::currentLanguage()->code;
-        $file_var2 = "file_" . env('DEFAULT_LANGUAGE');
+        $title_var = "title_" . trans('backLang.boxCode');
+        $details_var = "details_" . trans('backLang.boxCode');
+        $file_var = "file_" . trans('backLang.boxCode');
         ?>
         @if($SliderBanner_type==0)
             {{-- Text/Code Banners--}}
             <div class="text-center">
                 @foreach($SliderBanners as $SliderBanner)
-                    <?php
-                    if ($SliderBanner->$details_var != "") {
-                        $BDetails = $SliderBanner->$details_var;
-                    } else {
-                        $BDetails = $SliderBanner->$details_var2;
-                    }
-                    ?>
-                    @if($BDetails !="")
-                        <div>{!! $BDetails !!}</div>
+                    @if($SliderBanner->$details_var !="")
+                        <div>{!! $SliderBanner->$details_var !!}</div>
                     @endif
                 @endforeach
             </div>
@@ -40,36 +31,19 @@
             <div id="main-slider" class="flexslider">
                 <ul class="slides">
                     @foreach($SliderBanners as $SliderBanner)
-                        <?php
-                        if ($SliderBanner->$title_var != "") {
-                            $BTitle = $SliderBanner->$title_var;
-                        } else {
-                            $BTitle = $SliderBanner->$title_var2;
-                        }
-                        if ($SliderBanner->$details_var != "") {
-                            $BDetails = $SliderBanner->$details_var;
-                        } else {
-                            $BDetails = $SliderBanner->$details_var2;
-                        }
-                        if ($SliderBanner->$file_var != "") {
-                            $BFile = $SliderBanner->$file_var;
-                        } else {
-                            $BFile = $SliderBanner->$file_var2;
-                        }
-                        ?>
                         <li>
-                            <img src="{{ URL::to('uploads/banners/'.$BFile) }}"
-                                 alt="{{ $BTitle }}"/>
+                            <img src="{{ URL::to('uploads/banners/'.$SliderBanner->$file_var) }}"
+                                 alt="{{ $SliderBanner->$title_var }}"/>
                             <div class="flex-caption">
-                                @if($BTitle !="")
-                                    <h3>{!! $BTitle !!}</h3>
+                                @if($SliderBanner->$details_var !="")
+                                    <h3>{!! $SliderBanner->$title_var !!}</h3>
                                 @endif
-                                @if($BDetails !="")
-                                    <p>{!! nl2br($BDetails) !!}</p>
+                                @if($SliderBanner->$details_var !="")
+                                    <p>{!! nl2br($SliderBanner->$details_var) !!}</p>
                                 @endif
                                 @if($SliderBanner->link_url !="")
                                     <a href="{!! $SliderBanner->link_url !!}"
-                                       class="btn btn-theme">{{ __('frontend.moreDetails') }}</a>
+                                       class="btn btn-theme">{{ trans('frontLang.moreDetails') }}</a>
                                 @endif
                             </div>
                         </li>
@@ -80,23 +54,6 @@
             {{-- Video Banners--}}
             <div class="text-center">
                 @foreach($SliderBanners as $SliderBanner)
-                    <?php
-                    if ($SliderBanner->$title_var != "") {
-                        $BTitle = $SliderBanner->$title_var;
-                    } else {
-                        $BTitle = $SliderBanner->$title_var2;
-                    }
-                    if ($SliderBanner->$details_var != "") {
-                        $BDetails = $SliderBanner->$details_var;
-                    } else {
-                        $BDetails = $SliderBanner->$details_var2;
-                    }
-                    if ($SliderBanner->$file_var != "") {
-                        $BFile = $SliderBanner->$file_var;
-                    } else {
-                        $BFile = $SliderBanner->$file_var2;
-                    }
-                    ?>
                     @if($SliderBanner->youtube_link !="")
                         @if($SliderBanner->video_type ==1)
                             <?php
@@ -115,23 +72,23 @@
                             @if($Vimeo_id !="")
                                 {{-- Vimeo Video --}}
                                 <iframe width="100%" height="500" frameborder="0" allowfullscreen
-                                        src="https://player.vimeo.com/video/{{ $Vimeo_id }}?title=0&amp;byline=0">
+                                        src="http://player.vimeo.com/video/{{ $Vimeo_id }}?title=0&amp;byline=0">
                                 </iframe>
                             @endif
                         @endif
                     @endif
                     @if($SliderBanner->video_type ==0)
-                        @if($BFile !="")
+                        @if($SliderBanner->$file_var !="")
                             {{-- Direct Video --}}
                             <video width="100%" height="500" controls>
-                                <source src="{{ URL::to('uploads/banners/'.$BFile) }}"
+                                <source src="{{ URL::to('uploads/banners/'.$SliderBanner->$file_var) }}"
                                         type="video/mp4">
                                 Your browser does not support the video tag.
                             </video>
                         @endif
                     @endif
-                    @if($BDetails !="")
-                        <div>{!! $BDetails !!}</div>
+                    @if($SliderBanner->$details_var !="")
+                        <div>{!! $SliderBanner->$details_var !!}</div>
                     @endif
                 @endforeach
             </div>

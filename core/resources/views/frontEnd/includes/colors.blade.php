@@ -2,7 +2,7 @@
     a, a:hover, a:focus, a:active, footer a.text-link:hover, strike, .post-meta span a:hover, footer a.text-link,
     ul.meta-post li a:hover, ul.cat li a:hover, ul.recent li h6 a:hover, ul.portfolio-categ li.active a, ul.portfolio-categ li.active a:hover, ul.portfolio-categ li a:hover, ul.related-post li h4 a:hover, span.highlight, article .post-heading h3 a:hover,
     .navbar .nav > .active > a, .navbar .nav > .active > a:hover, .navbar .nav > li > a:hover, .navbar .nav > li > a:focus, .navbar .nav > .active > a:focus {
-        color: {{ Helper::GeneralSiteSettings("style_color1") }};
+        {{--  color: {{ Helper::GeneralSiteSettings("style_color1") }};  --}}
     }
 
     .navbar-brand span {
@@ -304,7 +304,7 @@
 
     }
 
-    .navbar .nav > li:hover > a,.pagination > li > a,.pagination > li > a:hover,.pagination > li > a:active ,.pagination > li > a:focus {
+    .navbar .nav > li:hover > a {
         color: {{ Helper::GeneralSiteSettings("style_color1") }};
     }
 
@@ -315,15 +315,4 @@
         background: {{ Helper::GeneralSiteSettings("style_color1") }};
     }
 
-
-    .pagination > .active > a, .pagination > .active > span, .pagination > .active > a:hover, .pagination > .active > span:hover, .pagination > .active > a:focus, .pagination > .active > span:focus {
-        background-color: {{ Helper::GeneralSiteSettings("style_color1") }};
-        border-color: {{ Helper::GeneralSiteSettings("style_color1") }};
-    }
-    ::-webkit-scrollbar-thumb {
-        background: {{ Helper::GeneralSiteSettings("style_color2") }};
-    }
-    ::-webkit-scrollbar-thumb:hover {
-        background: {{ Helper::GeneralSiteSettings("style_color1") }};
-    }
 </style>

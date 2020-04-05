@@ -1,111 +1,76 @@
+<?php
+    $title_var = "title_" . trans('backLang.boxCode');
+    $details_var = "details_" . trans('backLang.boxCode');
+    $file_var = "file_" . trans('backLang.boxCode');
+?>
+
 <header>
-    <div class="site-top">
-        <div class="container">
-            <div>
-                <div class="pull-right">
-                    @if(Helper::GeneralWebmasterSettings("dashboard_link_status"))
-                        @if(Auth::check())
-                            <div class="btn-group header-dropdown">
-                                <button type="button" class="btn dropdown-toggle" data-toggle="dropdown"
-                                        aria-haspopup="true" aria-expanded="false">
-                                    <i class="fa fa-user"></i> {{ Auth::user()->name }} <i class="fa fa-angle-down"></i>
-                                </button>
-                                <div class="dropdown-menu">
-                                    <a class="dropdown-item"
-                                       href="{{ route('usersEdit',Auth::user()->id) }}"> <i
-                                            class="fa fa-cog"></i> {{__('frontend.dashboard')}}</a>
-                                    @if(Auth::user()->permissions ==0 || Auth::user()->permissions ==1)
-                                        <a class="dropdown-item"
-                                           href="{{ route("adminHome") }}"> <i
-                                                class="fa fa-user"></i> {{ __('backend.profile') }}</a>
-                                    @endif
-                                    @if(Helper::GeneralWebmasterSettings("inbox_status"))
-                                        @if(@Auth::user()->permissionsGroup->inbox_status)
-                                            <a href="{{ route('webmails') }}" class="dropdown-item">
-                                                <i class="fa fa-envelope"></i> {{ __('backend.siteInbox') }}
-                                            </a>
-                                        @endif
-                                    @endif
-                                    <a onclick="event.preventDefault();document.getElementById('logout-form').submit();"
-                                       class="dropdown-item" href="{{ url('/logout') }}"><i
-                                            class="fa fa-sign-out"></i> {{ __('backend.logout') }}</a>
+    
+            <div class="banner-header">
 
-                                    <form id="logout-form" action="{{ url('/logout') }}" method="POST"
-                                          style="display: none;">
-                                        {{ csrf_field() }}
-                                    </form>
-                                </div>
-                            </div>
-                        @else
-                            <strong>
-                                <a href="{{ route("adminHome") }}"><i
-                                        class="fa fa-cog"></i> {{__('frontend.dashboard')}}
-                                </a>
-                            </strong>
-                        @endif
-                    @endif
-                    @if(count(Helper::languagesList()) >1)
-                        <div class="btn-group header-dropdown">
-                            <button type="button" class="btn dropdown-toggle" data-toggle="dropdown"
-                                    aria-haspopup="true" aria-expanded="false">
-                                @if(@Helper::currentLanguage()->icon !="")
-                                    <img
-                                        src="{{ asset('backEnd/assets/images/flags/'.@Helper::currentLanguage()->icon.".svg") }}"
-                                        alt="">
-                                @endif
-                                {{ @Helper::currentLanguage()->title }} <i class="fa fa-angle-down"></i>
-                            </button>
-                            <div class="dropdown-menu">
-                                @foreach(Helper::languagesList() as $ActiveLanguage)
-                                    <a href="{{ URL::to('lang/'.$ActiveLanguage->code) }}" class="dropdown-item">
-                                        @if($ActiveLanguage->icon !="")
-                                            <img
-                                                src="{{ asset('backEnd/assets/images/flags/'.$ActiveLanguage->icon.".svg") }}"
-                                                alt="">
-                                        @endif
-                                        {{ $ActiveLanguage->title }}
-                                    </a>
-                                @endforeach
-                            </div>
-                        </div>
-                    @endif
-                </div>
-                <div class="pull-left">
-                    @if(Helper::GeneralSiteSettings("contact_t3") !="")
-                        <i class="fa fa-phone"></i> &nbsp;<a
-                            href="tel:{{ Helper::GeneralSiteSettings("contact_t5") }}"><span
-                                dir="ltr">{{ Helper::GeneralSiteSettings("contact_t5") }}</span></a>
-                    @endif
-                    @if(Helper::GeneralSiteSettings("contact_t6") !="")
-                        <span class="top-email">
-                        &nbsp; | &nbsp;
-                    <i class="fa fa-envelope"></i> &nbsp;<a
-                                href="mailto:{{ Helper::GeneralSiteSettings("contact_t6") }}">{{ Helper::GeneralSiteSettings("contact_t6") }}</a>
-                    </span>
-                    @endif
+                    <img src="/uploads/banners/15232802311756.jpg" width="100%">
+
+            </div>
+
+            <div class="menu-main hidden-xs" style="margin-bottom: 5px; z-index: 1000;">
+                <div id="top_nav" class="ddsmoothmenu">
+                    @include('frontEnd.includes.menu')
                 </div>
             </div>
-        </div>
-    </div>
-    <div class="navbar navbar-default">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="{{ route("Home") }}">
-                    @if(Helper::GeneralSiteSettings("style_logo_" . @Helper::currentLanguage()->code) !="")
-                        <img alt=""
-                             src="{{ URL::to('uploads/settings/'.Helper::GeneralSiteSettings("style_logo_" . @Helper::currentLanguage()->code)) }}">
-                    @else
-                        <img alt="" src="{{ URL::to('uploads/settings/nologo.png') }}">
-                    @endif
-
-                </a>
+            <div class="menu-main visible-xs">
+                <div id="top_nav" class="ddsmoothmenu">
+                    @include('frontEnd.includes.menu-mb')
+                </div>
             </div>
-            @include('frontEnd.includes.menu')
-        </div>
-    </div>
+
+            @if (!empty($MarqueeTopics))
+
+                <marquee class="hot-tip" behavior="scroll" direction="left" onmouseover="this.stop()" onmouseout="this.start()" scrollamount="7">
+                    
+                    @foreach($MarqueeTopics as $key=>$Topic)
+
+                        <?php
+                            if ($Topic->$title_var != "") {
+                                $title = $Topic->$title_var;
+                            } else {
+                                $title = $Topic->$title_var2;
+                            }
+                            if ($Topic->$details_var != "") {
+                                $details = $details_var;
+                            } else {
+                                $details = $details_var2;
+                            }
+                            $section = "";
+                            try {
+                                if ($Topic->section->$title_var != "") {
+                                    $section = $Topic->section->$title_var;
+                                } else {
+                                    $section = $Topic->section->$title_var2;
+                                }
+                            } catch (Exception $e) {
+                                $section = "";
+                            }
+
+                            if ($Topic->$slug_var != "" && Helper::GeneralWebmasterSettings("links_status")) {
+                                if (trans('backLang.code') != env('DEFAULT_LANGUAGE')) {
+                                    $topic_link_url = url(trans('backLang.code') . "/" . $Topic->id . "-" . $Topic->$slug_var);
+                                } else {
+                                    $topic_link_url = url($Topic->id . "-" . $Topic->$slug_var);
+                                }
+                            } else {
+                                if (trans('backLang.code') != env('DEFAULT_LANGUAGE')) {
+                                    $topic_link_url = route('FrontendTopicByLang', ["lang" => trans('backLang.code'), "section" => $Topic->webmasterSection->name, "id" => $Topic->id]);
+                                } else {
+                                    $topic_link_url = route('FrontendTopic', ["section" => $Topic->webmasterSection->name, "id" => $Topic->id]);
+                                }
+                            }
+                        ?>
+                        
+                        <a href="{{ $topic_link_url }}" target="_blank" style="text-decoration: none">{{ $Topic->$title_var }}</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+
+                        @endforeach
+                </marquee>
+
+            @endif
+
 </header>

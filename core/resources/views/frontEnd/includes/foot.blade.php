@@ -1,33 +1,68 @@
-<a href="#" title="{{ __('frontend.toTop') }}" class="scrollup"><i class="fa fa-angle-up active"></i></a>
+<a href="#" title="{{ trans('frontLang.toTop') }}" class="scrollup"><i class="fa fa-angle-up active"></i></a>
+
+
+<script src="{{ URL::asset('/frontEnd/js/jquery.easing.1.3.js') }}"></script>
+<script src="{{ URL::asset('/frontEnd/js/jquery.fancybox.pack.js') }}"></script>
+<script src="{{ URL::asset('/frontEnd/js/jquery.fancybox-media.js') }}"></script>
+<script src="{{ URL::asset('/frontEnd/js/google-code-prettify/prettify.js') }}"></script>
+<script src="{{ URL::asset('/frontEnd/js/portfolio/jquery.quicksand.js') }}"></script>
+<script src="{{ URL::asset('/frontEnd/js/portfolio/setting.js') }}"></script>
+<script src="{{ URL::asset('/frontEnd/js/jquery.flexslider.js') }}"></script>
+<script src="{{ URL::asset('/frontEnd/js/animate.js') }}"></script>
+<script src="{{ URL::asset('/frontEnd/js/adminlte.min.js') }}"></script>
+<script src="{{ URL::asset('/frontEnd/js/rypp.js') }}"></script>
+<script src="{{ URL::asset('/frontEnd/js/ytp-playlist.js') }}"></script>
+<script src="{{ mix('/frontEnd/js/app.js') }}"></script>
+
+
+
+
+
+
+
+<script src="{{ URL::asset('frontEnd/js/custom.js') }}"></script>
+
+<script>
+    
+    function resizeText(multiplier) {
+        if (document.body.style.fontSize == "") {
+            document.body.style.fontSize = "1.3em";
+        }
+        document.body.style.fontSize = parseFloat(document.body.style.fontSize) + (multiplier * 0.15) + "em";
+    }
+
+</script>
 
 <script type="text/javascript">
-    var page_dir = "{{ @Helper::currentLanguage()->direction }}";
-</script>
-<script src="{{ URL::asset('frontEnd/js/jquery.js') }}"></script>
-<script src="{{ URL::asset('frontEnd/js/jquery.easing.1.3.js') }}"></script>
-<script src="{{ URL::asset('frontEnd/js/bootstrap.min.js') }}"></script>
-<script src="{{ URL::asset('frontEnd/js/jquery.fancybox.pack.js') }}"></script>
-<script src="{{ URL::asset('frontEnd/js/jquery.fancybox-media.js') }}"></script>
-<script src="{{ URL::asset('frontEnd/js/google-code-prettify/prettify.js') }}"></script>
-<script src="{{ URL::asset('frontEnd/js/portfolio/jquery.quicksand.js') }}"></script>
-<script src="{{ URL::asset('frontEnd/js/portfolio/setting.js') }}"></script>
-<script src="{{ URL::asset('frontEnd/js/jquery.flexslider.js') }}"></script>
-<script src="{{ URL::asset('frontEnd/js/animate.js') }}"></script>
-<script src="{{ URL::asset('frontEnd/js/custom.js') }}"></script>
-<script src="{{ URL::asset('frontEnd/js/owl-carousel/owl.carousel.js') }}"></script>
+    $(document).ready(function() {
+        $('[data-toggle="offcanvas-mb"]').click(function () {
+            $('.row-offcanvas').toggleClass('active')
+        });
+  
+        {{--  $('div.alert').delay(3000).slideUp(300);  --}}
 
-{{--ajax subscribe to news letter--}}
+        //Ban do
+
+        $('#block-header-bd').click(function () {
+            $("#menu-bd").toggleClass('rotated')
+        });
+      
+    });
+</script>
+
+    {{--ajax subscribe to news letter--}}
+
 @if(Helper::GeneralSiteSettings("style_subscribe"))
     <script type="text/javascript">
-        jQuery(document).ready(function ($) {
+        $(document).ready(function ($) {
             "use strict";
 
             //Subscribe
             $('form.subscribeForm').submit(function () {
 
                 var f = $(this).find('.form-group'),
-                    ferror = false,
-                    emailExp = /^[^\s()<>@,;:\/]+@\w[\w\.-]+\.[a-z]{2,}$/i;
+                        ferror = false,
+                        emailExp = /^[^\s()<>@,;:\/]+@\w[\w\.-]+\.[a-z]{2,}$/i;
 
                 f.children('input').each(function () { // run all inputs
 
@@ -84,7 +119,7 @@
                 else var str = $(this).serialize();
                 $.ajax({
                     type: "POST",
-                    url: "{{ route("subscribeSubmit") }}",
+                    url: "<?php echo route("subscribeSubmit"); ?>",
                     data: str,
                     success: function (msg) {
                         if (msg == 'OK') {
@@ -103,28 +138,13 @@
                 });
                 return false;
             });
-
+            
         });
     </script>
 @endif
-
-{{-- Google Tags and google analytics --}}
-@if($WebmasterSettings->google_tags_status && $WebmasterSettings->google_tags_id !="")
-    <!-- Google Tag Manager (noscript) -->
-    <noscript>
-        <iframe src="//www.googletagmanager.com/ns.html?id={!! $WebmasterSettings->google_tags_id !!}"
-                height="0" width="0" style="display:none;visibility:hidden"></iframe>
-    </noscript>
-    <!-- End Google Tag Manager (noscript) -->
-@endif
-@if($WebmasterSettings->google_analytics_code !="")
-    {!! $WebmasterSettings->google_analytics_code !!}
-@endif
-
-
 <?php
-if ($PageTitle == "") {
-    $PageTitle = Helper::GeneralSiteSettings("site_title_" . @Helper::currentLanguage()->code);
-}
+    if($PageTitle==""){
+        $PageTitle = Helper::GeneralSiteSettings("site_title_" . trans('backLang.boxCode'));
+    }
 ?>
 {!! Helper::SaveVisitorInfo($PageTitle) !!}
